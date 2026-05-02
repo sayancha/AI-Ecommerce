@@ -19,7 +19,7 @@ class RouteDecision(BaseModel):
 
 class RouterAgent:
     def __init__(self) -> None:
-        self.llm = build_llm(temperature=0)
+        self.llm = build_llm(temperature=0, max_tokens=200)
         self.structured_llm = self.llm.with_structured_output(RouteDecision)
         self.prompt = ChatPromptTemplate.from_messages(
             [

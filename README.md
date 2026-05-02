@@ -44,6 +44,7 @@ Copy `.env.example` to `.env` and fill in your real values.
 ```env
 OPENROUTER_API_KEY=
 OPENROUTER_MODEL=openai/gpt-4.1-mini
+OPENROUTER_MAX_TOKENS=1200
 SUPABASE_URL=
 SUPABASE_KEY=
 SUPABASE_SALES_TABLE=sales_records
@@ -52,6 +53,8 @@ GMAIL_APP_PASSWORD=
 DEFAULT_REPORT_RECIPIENT=
 FASTAPI_BASE_URL=http://127.0.0.1:8000
 ```
+
+`OPENROUTER_MAX_TOKENS` caps the maximum model response size. Keep it modest on Railway/OpenRouter so each request does not reserve the model's full output window.
 
 ## Gmail setup
 

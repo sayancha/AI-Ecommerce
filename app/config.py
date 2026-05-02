@@ -10,6 +10,7 @@ load_dotenv()
 class Settings(BaseSettings):
     openrouter_api_key: str = Field(alias="OPENROUTER_API_KEY")
     openrouter_model: str = Field(default="openai/gpt-4.1-mini", alias="OPENROUTER_MODEL")
+    openrouter_max_tokens: int = Field(default=1200, gt=0, alias="OPENROUTER_MAX_TOKENS")
     supabase_url: str = Field(alias="SUPABASE_URL")
     supabase_key: str = Field(alias="SUPABASE_KEY")
     supabase_sales_table: str = Field(default="sales_records", alias="SUPABASE_SALES_TABLE")
