@@ -1,16 +1,22 @@
 from __future__ import annotations
 
 import random
+import os
 from datetime import datetime, timedelta, timezone
 
 from dotenv import load_dotenv
 from faker import Faker
 from supabase import create_client
 
-from app.config import get_settings
-
 load_dotenv()
 fake = Faker()
+
+
+def required_env(name: str) -> str:
+    value = os.getenv(name)
+    if not value:
+        raise RuntimeError(f"Missing required environment variable: {name}")
+    return value
 
 
 def build_sales_rows(count: int = 100) -> list[dict]:
@@ -52,11 +58,14 @@ def build_sales_rows(count: int = 100) -> list[dict]:
 
 
 def main() -> None:
-    settings = get_settings()
-    client = create_client(settings.supabase_url, settings.supabase_key)
+    supabase_url = required_env("SUPABASE_URL")
+    supabase_key = required_env("SUPABASE_KEY")
+    table_name = os.getenv("SUPABASE_SALES_TABLE", "sales_records")
+
+    client = create_client(supabase_url, supabase_key)
     rows = build_sales_rows(120)
-    client.table(settings.supabase_sales_table).insert(rows).execute()
-    print(f"Inserted {len(rows)} fake sales rows into {settings.supabase_sales_table}.")
+    client.table(table_name).insert(rows).execute()
+    print(f"Inserted {len(rows)} fake sales rows into {table_name}.")
 
 
 if __name__ == "__main__":
